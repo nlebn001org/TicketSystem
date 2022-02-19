@@ -60,7 +60,7 @@ namespace TicketSystem.Web.Controllers
                 if (user == null)
                 {
                     User newUser = new User { Username = model.Username, Password = model.Password }; //could be registered only customer
-                    Role userRole = await db.Roles.FirstOrDefaultAsync(r => r.RoleName == "user");
+                    Role userRole = await db.Roles.FirstOrDefaultAsync(r => r.RoleName == "customer");
                     if (userRole != null) newUser.Role = userRole;
                     await db.Users.AddAsync(newUser);
                     await db.SaveChangesAsync();
@@ -74,6 +74,10 @@ namespace TicketSystem.Web.Controllers
             }
             return View(model);
         }
+
+
+        // TODO: ADD CHANGE PASSWORD CONTROLLER
+
 
         private async Task Authenticate(User user)
         {

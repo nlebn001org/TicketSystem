@@ -1,19 +1,41 @@
 ﻿
-
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
 </head>
 <body>
-    <header>
-    </header>
+
+    <div class="header">
+        <a asp-action="Index" asp-controller="Home">
+            <img src="~/img/main-icon.png" alt="Alternate Text" width="60" height="60" />
+        </a>
+        <div class="login-section">
+            @if (@User.Identity.Name == null)
+            {
+                <a asp-action="Register" asp-controller="Account">Register</a>
+                <a asp-action="Login" asp-controller="Account">Login</a>
+            }
+            else
+            {
+                <a asp-action="" asp-controller="">@User.Identity.Name</a>
+                <a asp-action="Logout" asp-controller="Account">Lougout</a>
+            }
+        </div>
+    </div>
+
+
     <div>
         @RenderBody()
     </div>
-    <footer>
-    </footer>
+
+
+    <div class="footer">
+        <p>© 2022 Test Inc. </p>
+    </div>
+
 </body>
 </html>

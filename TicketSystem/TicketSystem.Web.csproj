@@ -15,4 +15,13 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CustomInterfaces\ControllerInterfaces\" />
+    <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\Support\" />
+    <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\js\" />
+  </ItemGroup>
+
 </Project>

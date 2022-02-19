@@ -14,25 +14,32 @@ namespace TicketSystem.Web.Controllers
         readonly IRepository<User> userRepository;
         readonly SystemDbContext db;
 
-        public HomeController(IRepository<User> userRepository, SystemDbContext db )
+        public HomeController(IRepository<User> userRepository, SystemDbContext db)
         {
             this.userRepository = userRepository;
             this.db = db;
-
         }
 
         [Route(""), HttpGet]
         public IActionResult Index()
         {
-            ViewData["state"] = User.Identity.Name;
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         [Route("user/allusers"), HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
             IEnumerable<User> users = await userRepository.getAllAsync();
             return View(users.ToList());
+        }
+
+        [Authorize(Roles = "admin")]
+        [Route("user/allusers/{id}"), HttpGet]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            User user = await userRepository.GetByIdAsync(id);
+            return View(user);
         }
     }
 }
