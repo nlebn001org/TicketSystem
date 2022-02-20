@@ -10,8 +10,12 @@ namespace TicketSystem.Web.Controllers
     [Authorize(Roles ="admin")]
     public class AdminController : Controller
     {
-
+        
         //get all users
+
+
+
+
         //get one user by username
 
         //create new user with user role  

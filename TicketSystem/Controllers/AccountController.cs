@@ -124,6 +124,7 @@ namespace TicketSystem.Web.Controllers
                     user.Email = string.IsNullOrEmpty(accountModel.Email) ? user.Email : accountModel.Email;
                     user.Name = string.IsNullOrEmpty(accountModel.Name) ? user.Name : accountModel.Name;
                     user.Surname = string.IsNullOrEmpty(accountModel.Surname) ? user.Surname : accountModel.Surname;
+                    user.DateChanged = DateTime.Now;
                     db.Update(user);
                     await db.SaveChangesAsync();
                 }

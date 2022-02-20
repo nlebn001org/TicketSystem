@@ -9,7 +9,7 @@
 
 
 
-<form asp-action="MyAccount" asp-controller="Account" asp-antiforgery="true">
+<form onsubmit="if(!confirm('Is the form filled out correctly?')){return false;}" asp-action="MyAccount" asp-controller="Account" asp-antiforgery="true" >
     <div class="validation" asp-validation-summary="ModelOnly"></div>
 
     <div class="form-group">
@@ -52,6 +52,6 @@
     </div>
 
     <div class="form-group">
-        <input type="submit" value="Save Changes" />
+        <input type="submit"  value="Save Changes" />
     </div>
 </form>

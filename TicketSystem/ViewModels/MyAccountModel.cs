@@ -15,6 +15,7 @@ namespace TicketSystem.Web.ViewModels
         public string Email { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+        //todo: add option to change a photo
         //public string PhotoPath { get; set; }
         [DataType(DataType.Password)]
         
