@@ -8,10 +8,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using TicketSystem.Web.Models;
+using TicketSystem.Web.RepositoryServices;
 using TicketSystem.Web.ViewModels;
 
 namespace TicketSystem.Web.Controllers
 {
+
     public class AccountController : Controller
     {
         readonly SystemDbContext db;
@@ -33,10 +35,13 @@ namespace TicketSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => model.Username == u.Username && model.Password == u.Password);
+                User user = await db.Users.Include(u => u.Role)
+                    .FirstOrDefaultAsync(u => model.Username == u.Username && model.Password == u.Password);
+
                 if (user != null)
                 {
                     await Authenticate(user); //authentication
+
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Incorrect Username or Password");
@@ -65,7 +70,7 @@ namespace TicketSystem.Web.Controllers
                     await db.Users.AddAsync(newUser);
                     await db.SaveChangesAsync();
                     await Authenticate(newUser); //authentication
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home"); // home index
                 }
                 else
                 {
@@ -75,8 +80,58 @@ namespace TicketSystem.Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [Microsoft.AspNetCore.Authorization.Authorize]
+        public async Task<IActionResult> MyAccount()
+        {
+            User user = await db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == User.Identity.Name);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Something went wrong.");
+            }
+            MyAccountModel accountModel = new MyAccountModel
+            {
+                Username = user.Username,
+                Role = user.Role,
+                Email = user.Email,
+                Name = user.Name,
+                Surname = user.Surname
+            };
+            return View(accountModel);
+        }
 
-        // TODO: ADD CHANGE PASSWORD CONTROLLER
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MyAccount(MyAccountModel accountModel)
+        {
+            User user = await db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == accountModel.Username);
+            accountModel.Role = user.Role;
+            if (ModelState.IsValid)
+            {
+                if (user != null)
+                {
+                    if (!string.IsNullOrEmpty(accountModel.NewPassword) || !string.IsNullOrEmpty(accountModel.OldPassword) ||
+                        !string.IsNullOrEmpty(accountModel.ConfirmPassword))
+                    {
+                        if (user.Password != accountModel.OldPassword)
+                            ModelState.AddModelError("", "You must enter your previous password for change");
+                        if (accountModel.NewPassword.Length < 3)
+                            ModelState.AddModelError("", "Your password must not be empty or less than 3 symbols.");
+                        else
+                            user.Password = accountModel.NewPassword;
+                    }
+
+                    user.Email = string.IsNullOrEmpty(accountModel.Email) ? user.Email : accountModel.Email;
+                    user.Name = string.IsNullOrEmpty(accountModel.Name) ? user.Name : accountModel.Name;
+                    user.Surname = string.IsNullOrEmpty(accountModel.Surname) ? user.Surname : accountModel.Surname;
+                    db.Update(user);
+                    await db.SaveChangesAsync();
+                }
+                else
+                    ModelState.AddModelError("", "User does not exist.");
+            }
+            return View(accountModel);
+        }
 
 
         private async Task Authenticate(User user)

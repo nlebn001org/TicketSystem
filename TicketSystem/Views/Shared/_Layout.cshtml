@@ -21,7 +21,7 @@
             }
             else
             {
-                <a asp-action="" asp-controller="">@User.Identity.Name</a>
+                <a asp-action="MyAccount" asp-controller="Account">@User.Identity.Name</a>
                 <a asp-action="Logout" asp-controller="Account">Lougout</a>
             }
         </div>
@@ -34,6 +34,9 @@
 
 
     <div class="footer">
+        <div class="server-time">
+            @DateTime.Now.ToString("dddd, dd MMMM yyyy")
+        </div>
         <p>© 2022 Test Inc. </p>
     </div>
 
