@@ -16,11 +16,11 @@ namespace TicketSystem.Web.Controllers
 
     public class AccountController : Controller
     {
-        readonly SystemDbContext db;
+        readonly SystemDbContext _db;
 
         public AccountController(SystemDbContext db)
         {
-            this.db = db;
+            _db = db;
         }
 
         [HttpGet]
@@ -35,7 +35,7 @@ namespace TicketSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await db.Users.Include(u => u.Role)
+                User user = await _db.Users.Include(u => u.Role)
                     .FirstOrDefaultAsync(u => model.Username == u.Username && model.Password == u.Password);
 
                 if (user != null)
@@ -61,14 +61,14 @@ namespace TicketSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await db.Users.FirstOrDefaultAsync(u => u.Username == model.Username);
+                User user = await _db.Users.FirstOrDefaultAsync(u => u.Username == model.Username);
                 if (user == null)
                 {
                     User newUser = new User { Username = model.Username, Password = model.Password }; //could be registered only customer
-                    Role userRole = await db.Roles.FirstOrDefaultAsync(r => r.RoleName == "customer");
+                    Role userRole = await _db.Roles.FirstOrDefaultAsync(r => r.RoleName == "customer");
                     if (userRole != null) newUser.Role = userRole;
-                    await db.Users.AddAsync(newUser);
-                    await db.SaveChangesAsync();
+                    await _db.Users.AddAsync(newUser);
+                    await _db.SaveChangesAsync();
                     await Authenticate(newUser); //authentication
                     return RedirectToAction("Index", "Home"); // home index
                 }
@@ -84,11 +84,10 @@ namespace TicketSystem.Web.Controllers
         [Microsoft.AspNetCore.Authorization.Authorize]
         public async Task<IActionResult> MyAccount()
         {
-            User user = await db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == User.Identity.Name);
+            User user = await _db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == User.Identity.Name);
             if (user == null)
-            {
                 ModelState.AddModelError("", "Something went wrong.");
-            }
+
             MyAccountModel accountModel = new MyAccountModel
             {
                 Username = user.Username,
@@ -104,7 +103,7 @@ namespace TicketSystem.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MyAccount(MyAccountModel accountModel)
         {
-            User user = await db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == accountModel.Username);
+            User user = await _db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == accountModel.Username);
             accountModel.Role = user.Role;
             if (ModelState.IsValid)
             {
@@ -125,8 +124,8 @@ namespace TicketSystem.Web.Controllers
                     user.Name = string.IsNullOrEmpty(accountModel.Name) ? user.Name : accountModel.Name;
                     user.Surname = string.IsNullOrEmpty(accountModel.Surname) ? user.Surname : accountModel.Surname;
                     user.DateChanged = DateTime.Now;
-                    db.Update(user);
-                    await db.SaveChangesAsync();
+                    _db.Update(user);
+                    await _db.SaveChangesAsync();
                 }
                 else
                     ModelState.AddModelError("", "User does not exist.");
@@ -134,6 +133,16 @@ namespace TicketSystem.Web.Controllers
             return View(accountModel);
         }
 
+        public async Task<IActionResult> DeleteAccount()
+        {
+            User user = await _db.Users.FirstOrDefaultAsync(u => u.Username == User.Identity.Name);
+            if (user == null)
+                ModelState.AddModelError("", "Something went wrong.");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            _db.Users.Remove(user);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Login", "Account");
+        }
 
         private async Task Authenticate(User user)
         {

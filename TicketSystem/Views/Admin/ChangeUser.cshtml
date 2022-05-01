@@ -1,0 +1,54 @@
+﻿@model TicketSystem.Web.ViewModels.ChangeUserModel
+    <table>
+        <thead>
+            <tr>
+                <th class="tg-0pky">Items</th>
+                <th class="tg-0pky">Values</th>
+                <th class="tg-0pky">NewValue</th>
+                <th class="tg-0pky">Save Changes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="tg-0pky">ID</td>
+                <td class="tg-0pky">@Model.Id</td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">Username</td>
+                <td class="tg-0pky">@Model.Username</td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">Email</td>
+                <td class="tg-0pky">@Model.Email</td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">Name</td>
+                <td class="tg-0pky">@Model.Name</td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">Surname</td>
+                <td class="tg-0pky">@Model.Surname</td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">DateCreated</td>
+                <td class="tg-0pky">@Model.DateCreated</td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">DateChanged</td>
+                <td class="tg-0pky">@Model.DateChanged</td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">Role</td>
+                <td class="tg-0pky">@Model.RoleName</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <form onsubmit="if(!confirm('Account will be deleted.')){return false;}" asp-action="DeleteUser" asp-controller="Admin">
+            <div class="form-group">
+                <input name="id" type="hidden" value="@Model.Id">
+                <input type="submit" value="Delete account." />
+            </div>
+        </form>
+    </div>

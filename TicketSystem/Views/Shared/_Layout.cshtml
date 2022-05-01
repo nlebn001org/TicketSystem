@@ -8,7 +8,9 @@
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
 </head>
 <body>
-
+    @{
+        string role = (((ClaimsIdentity)User.Identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value)).FirstOrDefault();
+    }
     <div class="header">
         <a asp-action="Index" asp-controller="Home">
             <img src="~/img/main-icon.png" alt="Alternate Text" width="60" height="60" />
@@ -24,6 +26,17 @@
                 <a asp-action="MyAccount" asp-controller="Account">@User.Identity.Name</a>
                 <a asp-action="Logout" asp-controller="Account">Lougout</a>
             }
+            @if (role == "admin")
+            {
+                <a asp-action="UserManaging" asp-controller="Admin">User managing</a>
+                <a asp-action="Index" asp-controller="Customer">Ticket managing</a>
+            }
+            @if (role == "support")
+            {
+                <a asp-action="Index" asp-controller="Customer">Ticket managing</a>
+            }
+            @if (role == "customer")
+            {<a asp-action="Index" asp-controller="Customer">My tickets</a>}
         </div>
     </div>
 

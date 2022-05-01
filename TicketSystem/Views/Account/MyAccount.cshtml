@@ -55,3 +55,13 @@
         <input type="submit"  value="Save Changes" />
     </div>
 </form>
+
+<div>
+    <form onsubmit="if(!confirm('Account will be deleted.')){return false;}" asp-action="DeleteAccount" asp-controller="Account">
+        <div class="form-group">
+            <input type="submit" value="Delete my account." />
+        </div>
+    </form>
+</div>
+    
+

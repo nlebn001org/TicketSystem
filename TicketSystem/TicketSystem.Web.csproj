@@ -17,8 +17,6 @@
 
   <ItemGroup>
     <Folder Include="CustomInterfaces\ControllerInterfaces\" />
-    <Folder Include="Views\Customer\" />
-    <Folder Include="Views\Admin\" />
     <Folder Include="Views\Support\" />
     <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\js\" />
