@@ -1,0 +1,22 @@
+﻿@model List<TicketSystem.Web.ViewModels.ShortTicket>
+<table>
+    <tr>
+        <th>Ticket ID</th>
+        <th>Creator</th>
+        <th>Title</th>
+        <th>Creation date</th>
+        <th>Ticket state</th>
+        <th>Solver</th>
+    </tr>
+    @foreach (TicketSystem.Web.ViewModels.ShortTicket ticket in Model)
+    {
+        <tr>
+            <td>@ticket.Id</td>
+            <td>@ticket.Creator</td>
+            <td>@ticket.Title</td>
+            <td>@ticket.DateCreated</td>
+            <td>@ticket.TicketState</td>
+            <td>@ticket.Solver</td>
+        </tr>
+    }
+</table>

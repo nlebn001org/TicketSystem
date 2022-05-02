@@ -50,8 +50,8 @@
                 <th>Username</th>
                 <th>Role</th>
                 <th>Change</th>
-                <th>Delete</th>
                 <th>Tickets</th>
+                
             </tr>
             @foreach (TicketSystem.Web.ViewModels.FindUserModel user in Model)
             {
@@ -62,7 +62,6 @@
                         <form asp-action="ChangeUser" asp-controller="Admin" asp-antiforgery="true">
                             <div class="form-group">
                                 <input name="username" type="hidden" value="@user.Username">
-                                @*<input type="text" name="@user.Username" />*@
                             </div>
                             <div class="form-group">
                                 <input type="submit" value="Change" />
@@ -70,13 +69,12 @@
                         </form>
                     </td>
                     <td>
-                        <form asp-action="ChangeUser" asp-controller="Admin" asp-antiforgery="true">
+                        <form asp-action="GetUserTickets" asp-controller="Admin" asp-antiforgery="true">
                             <div class="form-group">
                                 <input name="username" type="hidden" value="@user.Username">
-                                @*<input type="text" name="@user.Username" />*@
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Change" />
+                                <input type="submit" value="Show tickets" />
                             </div>
                         </form>
                     </td>

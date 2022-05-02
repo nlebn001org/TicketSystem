@@ -1,0 +1,19 @@
+﻿@model TicketSystem.Web.ViewModels.NewTicketModel
+
+<form asp-action="CreateNewTicket" asp-controller="Ticket" asp-antiforgery="true">
+    <div class="form-group">
+        <label asp-for="@Model.Title">Title</label>
+        <br />
+        <input type="text" asp-for="@Model.Title" />
+        <span asp-validation-for="@Model.Title"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Description">Description</label>
+        <br />
+        <input type="text" asp-for="@Model.Description" />
+        <span asp-validation-for="@Model.Description"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" />
+    </div>
+</form>

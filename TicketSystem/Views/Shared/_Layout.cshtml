@@ -24,6 +24,7 @@
             else
             {
                 <a asp-action="MyAccount" asp-controller="Account">@User.Identity.Name</a>
+                <a asp-action="CreateNewTicket" asp-controller="Ticket">Create a ticket</a>
                 <a asp-action="Logout" asp-controller="Account">Lougout</a>
             }
             @if (role == "admin")
@@ -36,7 +37,7 @@
                 <a asp-action="Index" asp-controller="Customer">Ticket managing</a>
             }
             @if (role == "customer")
-            {<a asp-action="Index" asp-controller="Customer">My tickets</a>}
+            {<a asp-action="GetMyTickets" asp-controller="Ticket">My tickets</a>}
         </div>
     </div>
 

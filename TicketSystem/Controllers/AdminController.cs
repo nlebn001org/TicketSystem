@@ -64,7 +64,7 @@ namespace TicketSystem.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeUser(string username)
         {
-            User user = await _db.Users.Include(u=>u.Role).FirstOrDefaultAsync(u => u.Username == username);
+            User user = await _db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == username);
             ChangeUserModel changeUserModel = new()
             {
                 Id = user.Id,
@@ -81,6 +81,36 @@ namespace TicketSystem.Web.Controllers
             return View(changeUserModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetUserTickets()
+        {
+            List<ShortTicket> shortTickets = new();
+            return View(shortTickets);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> GetUserTickets(string username)
+        {
+            User user = await _db.Users.Include(u => u.Tickets).Include(u=>u.Ticket).FirstOrDefaultAsync(u => u.Username == username);
+           
+            List<Ticket> tickets = user.Tickets.ToList();
+            List<ShortTicket> shortTickets = new();
+            foreach (Ticket ticket in tickets)
+            {
+                shortTickets.Add(new ShortTicket
+                {
+                    Id = ticket.Id,
+                    Creator = ticket.Creator.Username,
+                    Title = ticket.Title,
+                    DateCreated = ticket.DateCreated,
+                    TicketState = ticket.TicketState,
+                    Solver = ticket.Solver?.Username        //TODO solve the issue (user.Tickets[].Solver is always null )
+                });
+            }
+            return View(shortTickets);
+        }
+
 
         //TODO sign out the user if he is signed in. 
         [HttpPost]
@@ -89,7 +119,6 @@ namespace TicketSystem.Web.Controllers
             int _id = int.Parse(id);
             User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == _id);
             _db.Users.Remove(user);
-            
             await _db.SaveChangesAsync();
             return RedirectToAction("UserManaging", "Admin");
         }
