@@ -3,13 +3,15 @@ select * from Tickets
 select * from Users 
 
 DBCC CHECKIDENT ('[Roles]', RESEED, 0);
+DBCC CHECKIDENT ('[Tickets]', RESEED, 0);
+DBCC CHECKIDENT ('[Users]', RESEED, 0);
 
 delete from Roles
 delete from Tickets
 delete from Users 
 
 insert into Roles (roleName)
-values ('admin'),('support'),('user')
+values ('admin'),('support'),('customer')
 
 insert into Users (Username, [Password], RoleId)
 values ('admin', 'admin',1),
