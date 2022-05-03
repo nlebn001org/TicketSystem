@@ -1,0 +1,46 @@
+﻿@model TicketSystem.Web.ViewModels.NewUserModel
+
+<form onsubmit="if(!confirm('User will be created')){return false;}" asp-action="CreateNewUser" asp-controller="Admin" asp-antiforgery="true">
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+    <div class="form-group">
+        <label asp-for="Username"></label>
+        <input type="text" asp-for="Username" />
+        <span asp-validation-for="Username"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input type="password" asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input type="text" asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input type="text" asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Surname"></label>
+        <input type="text" asp-for="Surname" />
+        <span asp-validation-for="Surname"></span>
+    </div>
+    <div class="form-group">
+        <p>
+            <label asp-for="RoleName"></label>
+            <select asp-for="RoleName">
+                <option disabled>Role</option>
+                <option selected value="user">User</option>
+                <option value="support">Support</option>
+                <option value="admin">Admin</option>
+            </select>
+        </p>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Create user" />
+    </div>
+</form>

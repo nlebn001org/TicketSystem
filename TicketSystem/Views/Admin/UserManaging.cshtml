@@ -33,25 +33,36 @@
         <span asp-validation-for="@Model[0].Username"></span>
     </div>
     <div class="form-group">
-        <label asp-for="@Model[0].RoleName">Role</label>
-        <input type="text" asp-for="@Model[0].RoleName" />
-        <span asp-validation-for="@Model[0].RoleName"></span>
+        <p>
+            <label asp-for="@Model[0].RoleName"></label>
+            <select asp-for="@Model[0].RoleName">
+                <option disabled>Role</option>
+                <option selected value="customer">Customer</option>
+                <option value="support">Support</option>
+                <option value="admin">Admin</option>
+            </select>
+        </p>
     </div>
     <div class="form-group">
         <input type="submit" value="Find user" />
     </div>
 </form>
 
+<div>
+    <a asp-action="CreateNewUser" asp-controller="Admin">Create new user</a>
+</div>
 
 @{if (Model[0].Username != String.Empty && Model[0].Username != null)
     {
+        <h2>Were found @Model.Count results.</h2>
+        <br />
         <table>
             <tr>
                 <th>Username</th>
                 <th>Role</th>
                 <th>Change</th>
                 <th>Tickets</th>
-                
+
             </tr>
             @foreach (TicketSystem.Web.ViewModels.FindUserModel user in Model)
             {

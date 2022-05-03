@@ -36,7 +36,7 @@
             {
                 <a asp-action="Index" asp-controller="Customer">Ticket managing</a>
             }
-            @if (role == "customer")
+            @if (role == "customer")   
             {<a asp-action="GetMyTickets" asp-controller="Ticket">My tickets</a>}
         </div>
     </div>

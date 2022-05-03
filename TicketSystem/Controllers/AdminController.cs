@@ -92,8 +92,9 @@ namespace TicketSystem.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> GetUserTickets(string username)
         {
-            User user = await _db.Users.Include(u => u.Tickets).Include(u=>u.Ticket).FirstOrDefaultAsync(u => u.Username == username);
-           
+            User user = await _db.Users.Include(u => u.Tickets).Include(u => u.Ticket).
+                FirstOrDefaultAsync(u => u.Username == username);
+
             List<Ticket> tickets = user.Tickets.ToList();
             List<ShortTicket> shortTickets = new();
             foreach (Ticket ticket in tickets)
@@ -109,6 +110,55 @@ namespace TicketSystem.Web.Controllers
                 });
             }
             return View(shortTickets);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateNewUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNewUser(NewUserModel userModel)
+        {
+            bool isExist = true;
+            if (ModelState.IsValid)
+            {
+                User user = new()
+                {
+                    Username = userModel.Username,
+                    Password = userModel.Password,
+                    Email = userModel.Email,
+                    Name = userModel.Name,
+                    Surname = userModel.Surname,
+                    Role = await _db.Roles.FirstOrDefaultAsync(u => u.RoleName == userModel.RoleName),
+                    DateCreated = DateTime.Now
+                };
+
+                isExist = await _db.Users.AnyAsync(u => u.Username == userModel.Username);
+
+                if (isExist)
+                {
+                    ModelState.AddModelError("", "User with this username already exists.");
+                    return View(userModel);
+                }
+
+                await _db.Users.AddAsync(user);
+                await _db.SaveChangesAsync();
+            }
+            else
+            {
+                ModelState.AddModelError("", "Model is incorrect.");
+                return View(userModel);
+            }
+            return RedirectToAction("GetCreationResult", "Admin", new { @username = userModel.Username });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCreationResult(string username)
+        {
+            string message = $"User with {username} was created.";
+            return View((object)message);
         }
 
 
