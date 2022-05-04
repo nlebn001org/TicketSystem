@@ -61,9 +61,17 @@ namespace TicketSystem.Web.Controllers
             return View(userModels);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ChangeUser(string username)
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserInfo()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetUserInfo(string username)
+        {
+
             User user = await _db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == username);
             ChangeUserModel changeUserModel = new()
             {
@@ -77,8 +85,64 @@ namespace TicketSystem.Web.Controllers
                 DateChanged = user.DateChanged,
                 Tickets = user.Tickets
             };
-
             return View(changeUserModel);
+        }
+
+        public async Task<IActionResult> ChangeUser()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeUser(ChangeUserModel changedUserModel)
+        {
+            bool result = true;
+            User user = await _db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == changedUserModel.Username);
+            Role role = await _db.Roles.FirstOrDefaultAsync(u => u.RoleName == changedUserModel.RoleName);
+            ChangeUserModel ivalidModel = new()
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email,
+                Name = user.Name,
+                Surname = user.Surname,
+                RoleName = user.Role.RoleName,
+                DateChanged = user.DateChanged,
+                DateCreated = user.DateCreated
+            };
+            if (ModelState.IsValid)
+            {
+                user.Email = changedUserModel.Email != null ? changedUserModel.Email : user.Email;
+                user.Name = changedUserModel.Name != null ? changedUserModel.Name : user.Name;
+                user.Surname = changedUserModel.Surname != null ? changedUserModel.Surname : user.Surname;
+                user.Role = role;
+                user.DateChanged = user.Email != changedUserModel.Email ||
+                                   user.Name != changedUserModel.Name ||
+                                   user.Surname != changedUserModel.Surname ||
+                                   user.Role.RoleName != changedUserModel.RoleName
+                                   ? DateTime.Now : user.DateChanged;
+                try
+                {
+                    _db.Users.Attach(user);
+                    _db.Entry(user).State = EntityState.Modified;
+                    _db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    result = false;
+                }
+                return RedirectToAction("GetChangeResult", "Admin", new { @username = user.Username, @success = result });
+            }
+            //return RedirectToAction("GetUserInfo", "Admin", new { @username = user.Username });
+            return View(ivalidModel);
+        }
+
+
+        public async Task<IActionResult> GetChangeResult(string username, bool success)
+        {
+            string successResult = success == true ? $"User {username} was successfully changed." : $"User {username} was not changed.";
+            return View((object)successResult);
         }
 
         [HttpGet]

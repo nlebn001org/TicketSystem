@@ -70,7 +70,7 @@
                     <td>@user.Username</td>
                     <td>@user.RoleName</td>
                     <td>
-                        <form asp-action="ChangeUser" asp-controller="Admin" asp-antiforgery="true">
+                        <form asp-action="GetUserInfo" asp-controller="Admin" asp-antiforgery="true">
                             <div class="form-group">
                                 <input name="username" type="hidden" value="@user.Username">
                             </div>
