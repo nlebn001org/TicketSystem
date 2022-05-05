@@ -24,7 +24,6 @@ namespace TicketSystem.Web.Controllers
         {
             return View(new List<FindUserModel>());
         }
-
         [HttpPost]
         public async Task<IActionResult> UserManaging(List<FindUserModel> models)
         {
@@ -60,14 +59,11 @@ namespace TicketSystem.Web.Controllers
             }
             return View(userModels);
         }
-
-
         [HttpGet]
         public async Task<IActionResult> GetUserInfo()
         {
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> GetUserInfo(string username)
         {
@@ -87,16 +83,15 @@ namespace TicketSystem.Web.Controllers
             };
             return View(changeUserModel);
         }
-
+        [HttpGet]
         public async Task<IActionResult> ChangeUser()
         {
             return View();
         }
-
-
         [HttpPost]
         public async Task<IActionResult> ChangeUser(ChangeUserModel changedUserModel)
         {
+
             bool result = true;
             User user = await _db.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == changedUserModel.Username);
             Role role = await _db.Roles.FirstOrDefaultAsync(u => u.RoleName == changedUserModel.RoleName);
@@ -137,12 +132,50 @@ namespace TicketSystem.Web.Controllers
             //return RedirectToAction("GetUserInfo", "Admin", new { @username = user.Username });
             return View(ivalidModel);
         }
-
-
+        [HttpGet]
         public async Task<IActionResult> GetChangeResult(string username, bool success)
         {
             string successResult = success == true ? $"User {username} was successfully changed." : $"User {username} was not changed.";
             return View((object)successResult);
+        }
+        [HttpGet]
+        [Route("Admin/ChangeUserPassword/{id:int}")]
+        public async Task<IActionResult> ChangeUserPassword(int id)
+        {
+            User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null)
+                return NotFound();
+            ChangeUserPasswordModel model = new() { Id = id, Username = user.Username };
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangeUserPassword(ChangeUserPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
+                user.DateChanged = DateTime.Now;
+                user.Password = model.NewPassword;
+                try
+                {
+                    _db.Update(user);
+                    _db.SaveChanges();
+                    return RedirectToAction("ChangeUserPasswordResult", "Admin", new { @username = user.Username, @isSuccessful = true });
+                }
+                catch (Exception)
+                {
+                    return RedirectToAction("ChangeUserPasswordResult", "Admin", new { @username = user.Username, @isSuccsessful = false });
+                }
+            }
+            return View(model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ChangeUserPasswordResult(string username, bool isSuccessful)
+        {
+            string result = isSuccessful ? $"Password for user {username} was successfully changed" :
+                $"Password for user {username} was not changed";
+
+            return View((object)result);
         }
 
         [HttpGet]
@@ -151,8 +184,6 @@ namespace TicketSystem.Web.Controllers
             List<ShortTicket> shortTickets = new();
             return View(shortTickets);
         }
-
-
         [HttpPost]
         public async Task<IActionResult> GetUserTickets(string username)
         {
@@ -175,13 +206,11 @@ namespace TicketSystem.Web.Controllers
             }
             return View(shortTickets);
         }
-
         [HttpGet]
         public async Task<IActionResult> CreateNewUser()
         {
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> CreateNewUser(NewUserModel userModel)
         {
@@ -217,15 +246,12 @@ namespace TicketSystem.Web.Controllers
             }
             return RedirectToAction("GetCreationResult", "Admin", new { @username = userModel.Username });
         }
-
         [HttpGet]
         public async Task<IActionResult> GetCreationResult(string username)
         {
             string message = $"User with {username} was created.";
             return View((object)message);
         }
-
-
         //TODO sign out the user if he is signed in. 
         [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)

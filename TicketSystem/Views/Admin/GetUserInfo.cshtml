@@ -103,8 +103,11 @@
     <div class="form-group">
         <input type="submit" value="Save changes" />
     </div>
-
 </form>
+
+@*asp-action="ChangeUserPassword" asp-controller="Admin" asp-fragment="@Model.Username"*@
+
+<a asp-action="ChangeUserPassword" asp-controller="Admin" asp-route-id="@Model.Id">Change password</a>
 
 <div>
     <form onsubmit="if(!confirm('Account will be deleted.')){return false;}" asp-action="DeleteUser" asp-controller="Admin">

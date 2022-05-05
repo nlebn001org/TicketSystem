@@ -119,7 +119,7 @@ namespace TicketSystem.Web.Controllers
                         else
                             user.Password = accountModel.NewPassword;
                     }
-
+                    
                     user.Email = string.IsNullOrEmpty(accountModel.Email) ? user.Email : accountModel.Email;
                     user.Name = string.IsNullOrEmpty(accountModel.Name) ? user.Name : accountModel.Name;
                     user.Surname = string.IsNullOrEmpty(accountModel.Surname) ? user.Surname : accountModel.Surname;
