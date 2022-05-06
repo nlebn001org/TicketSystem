@@ -1,0 +1,70 @@
+﻿@model TicketSystem.Web.ViewModels.TicketInfoModel
+
+<table class="tg">
+    <tbody>
+        <tr>
+            <td class="tg-0pky">Ticket ID</td>
+            <td class="tg-0pky">@Model.Id</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">Title</td>
+            <td class="tg-0pky">@Model.Title</td>
+        </tr>
+
+        <tr>
+            <td class="tg-0pky">Descritpion</td>
+            <td class="tg-0pky">@Model.Description</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">Status</td>
+            <td class="tg-0pky">@Model.TicketState</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">Creation date</td>
+            <td class="tg-0pky">@Model.DateCreated</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">Last change</td>
+            <td class="tg-0pky">@Model.StateChanged</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">Requestor</td>
+            <td class="tg-0pky">@Model.CreatorName</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">Solver</td>
+            <td class="tg-0pky">@Model.SolverName</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">Solution</td>
+            <td class="tg-0pky">@Model.Solution</td>
+            @{
+                if ((User.IsInRole("support") && Model.SolverName == User.Identity.Name) || (User.IsInRole("admin"))
+                    && (Model.Solution == null || Model.Solution == string.Empty))
+                {
+                    <td>
+                        <div class="form-group">
+                            <form onsubmit="if(!confirm('Ticket will be closed.')){return false;}" asp-action="CloseTicketWithSolution" asp-controller="Ticket">
+                                <input asp-for="Solution" type="text" />
+                                <input asp-for="Id" type="hidden" value="@Model.Id" />
+                                <input asp-for="SolverName" type="hidden" value="@Model.SolverName" />
+                                <input type="submit" value="Close ticket" />
+                            </form>
+                        </div>
+                    </td>
+                }
+            }
+        </tr>
+    </tbody>
+</table>
+
+@{
+    if (User.IsInRole("customer") && Model.TicketState != TicketState.Solved)
+    {
+        <td>
+            <form onsubmit="if(!confirm('Ticket will be closed.')){return false;}" asp-action="CloseTicketByCustomer" asp-controller="Ticket" asp-route-id="@Model.Id">
+                <input type="submit" value="Close ticket" />
+            </form>
+        </td>
+    }
+}

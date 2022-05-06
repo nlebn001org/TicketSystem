@@ -187,7 +187,7 @@ namespace TicketSystem.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> GetUserTickets(string username)
         {
-            User user = await _db.Users.Include(u => u.Tickets).Include(u => u.Ticket).
+            User user = await _db.Users.Include(u => u.Tickets).ThenInclude(u=>u.Solver).
                 FirstOrDefaultAsync(u => u.Username == username);
 
             List<Ticket> tickets = user.Tickets.ToList();

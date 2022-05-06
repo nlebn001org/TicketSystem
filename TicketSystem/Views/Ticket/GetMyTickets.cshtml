@@ -15,7 +15,7 @@
             <td>@ticket.Title</td>
             <td>@ticket.DateCreated</td>
             <td>@ticket.TicketState</td>
-            
+            <td><a asp-action="GetTicket" asp-controller="Ticket" asp-route-id="@ticket.Id">Details</a></td>
         </tr>
     }
 </table>
