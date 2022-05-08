@@ -20,10 +20,3 @@ values ('admin', 'admin',1),
 
 insert into Tickets (Title, CreatorId)
 values('Test', 3)
-
-
-if we have 
-SqlException: Cannot insert duplicate key row in object 'dbo.Tickets' with unique index 'IX_Tickets_SolverId'. 
-The duplicate key value is (2).
-The statement has been terminated. ==> Manually delete nonclastered index IX_Tickets_SolverId from database
-
