@@ -20,7 +20,7 @@ namespace TicketSystem.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult UserManaging() //form
+        public IActionResult UserManaging()
         {
             return View(new List<FindUserModel>());
         }
@@ -201,11 +201,12 @@ namespace TicketSystem.Web.Controllers
                     Title = ticket.Title,
                     DateCreated = ticket.DateCreated,
                     TicketState = ticket.TicketState,
-                    Solver = ticket.Solver?.Username        //TODO solve the issue (user.Tickets[].Solver is always null )
+                    Solver = ticket.Solver?.Username      
                 });
             }
             return View(shortTickets);
         }
+
         [HttpGet]
         public async Task<IActionResult> CreateNewUser()
         {

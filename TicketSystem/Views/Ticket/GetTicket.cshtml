@@ -39,7 +39,7 @@
             <td class="tg-0pky">Solution</td>
             <td class="tg-0pky">@Model.Solution</td>
             @{
-                if ((User.IsInRole("support") && Model.SolverName == User.Identity.Name) || (User.IsInRole("admin"))
+                if (((User.IsInRole("support") && Model.SolverName == User.Identity.Name) || (User.IsInRole("admin")) && Model.TicketState != TicketState.Solved)
                     && (Model.Solution == null || Model.Solution == string.Empty))
                 {
                     <td>
@@ -59,7 +59,29 @@
 </table>
 
 @{
-    if (User.IsInRole("customer") && Model.TicketState != TicketState.Solved)
+    if (User.IsInRole("support") && Model?.SolverName != User.Identity.Name && Model.TicketState != TicketState.Solved)
+    {
+        <td>
+            <form onsubmit="if(!confirm('Ticket will be assigned on you.')){return false;}" asp-action="AssignOnMe" asp-controller="Ticket" asp-route-id="@Model.Id">
+                <input type="submit" value="Assign on me" />
+            </form>
+        </td>
+    }
+}
+
+@{
+    if (User.IsInRole("support") && Model?.SolverName == User.Identity.Name && Model.TicketState != TicketState.Solved)
+    {
+        <td>
+            <form onsubmit="if(!confirm('Ticket will be unassigned from you.')){return false;}" asp-action="UnassignFromMe" asp-controller="Ticket" asp-route-id="@Model.Id">
+                <input type="submit" value="Unassign from me" />
+            </form>
+        </td>
+    }
+}
+
+@{
+    if (User.IsInRole("customer") && Model.CreatorName == User.Identity.Name && Model.TicketState != TicketState.Solved)
     {
         <td>
             <form onsubmit="if(!confirm('Ticket will be closed.')){return false;}" asp-action="CloseTicketByCustomer" asp-controller="Ticket" asp-route-id="@Model.Id">

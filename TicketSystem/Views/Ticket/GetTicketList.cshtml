@@ -1,0 +1,67 @@
+﻿@model List<TicketSystem.Web.ViewModels.ShortTicket>
+
+@{ if (Model == null || Model.Count == 0)
+        Model.Add(new TicketSystem.Web.ViewModels.ShortTicket());
+}
+
+<form asp-action="GetTicketList" asp-controller="Ticket" method="get" asp-antiforgery="true">
+    <div class="form-group">
+        <label asp-for="@Model[0].Id">Ticket ID</label>
+        <input type="text" asp-for="@Model[0].Id" />
+        @*<span asp-validation-for="@Model[0].Id"></span>*@
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model[0].Creator">Creator username</label>
+        <input type="text" asp-for="@Model[0].Creator" />
+        @*<span asp-validation-for="@Model[0].Creator"></span>*@
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model[0].Solver">Solver username</label>
+        <input type="text" asp-for="@Model[0].Solver" />
+        @*<span asp-validation-for="@Model[0].Solver"></span>*@
+    </div>
+    <div class="form-group">
+        <p>
+            <label asp-for="@Model[0].TicketState"></label>
+            <select asp-for="@Model[0].TicketState">
+                <option disabled>Status</option>
+                <option selected value="0">All</option>
+                <option value="@TicketState.Created">Created</option>
+                <option value="@TicketState.Assigned">Assigned</option>
+                <option value="@TicketState.Solved">Solved</option>
+            </select>
+        </p>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Find ticket" />
+    </div>
+</form>
+
+@{
+    if (Model.Count >= 1 && Model[0].Id != 0)
+    {
+        <h3>Tickets were found @Model.Count</h3>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Creator</th>
+                <th>Solver</th>
+                <th>Status</th>
+
+            </tr>
+            @foreach (TicketSystem.Web.ViewModels.ShortTicket ticket in Model)
+            {
+                <tr>
+                    <td>@ticket.Id</td>
+                    <td>@ticket.Creator</td>
+                    <td>@ticket.Solver</td>
+                    <td>@ticket.TicketState</td>
+                    <td>
+                        <a asp-action="GetTicket" asp-controller="Ticket" asp-route-id="@ticket.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+}

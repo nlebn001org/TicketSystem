@@ -56,6 +56,264 @@ namespace TicketSystem.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin, support")]
+        public async Task<IActionResult> GetTicketList(List<ShortTicket> model)
+        {
+            if (model == null || model.Count == 0) return View(new List<ShortTicket>());
+
+            List<ShortTicket> resultList = new();
+
+            int _id = model[0].Id;
+            string _creator = model[0]?.Creator;
+            string _solver = model[0]?.Solver;
+            TicketState _state = model[0].TicketState;
+
+            //all default
+            if (_id == default && _creator == default && _solver == default && _state == default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator).ToList();
+
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+
+            // id
+            if (_id != default && _creator == default && _solver == default && _state == default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator).Where(u => u.Id == _id);
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+            // id && creator
+            if (_id != default && _creator != default && _solver == default && _state == default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator)
+                    .Where(u => (u.Id == _id) && (u.Creator.Username == _creator));
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+            // id && solver
+            if (_id != default && _creator == default && _solver != default && _state == default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator)
+                    .Where(u => (u.Id == _id) && (u.Solver.Username == _solver));
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+            // id && creator && solver
+            if (_id != default && _creator != default && _solver != default && _state == default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator)
+                    .Where(u => (u.Id == _id) && (u.Creator.Username == _creator) && (u.Solver.Username == _solver));
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+            // id && creator && solver && state
+            if (_id != default && _creator != default && _solver != default && _state != default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator)
+                    .Where(u => (u.Id == _id) && (u.Creator.Username == _creator) && (u.Solver.Username == _solver) && (u.TicketState == _state));
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+            // id && state
+            if (_id != default && _creator == default && _solver == default && _state != default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator)
+                    .Where(u => (u.Id == _id) && (u.TicketState == _state));
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+
+            // creator
+            if (_id == default && _creator != default && _solver == default && _state == default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator)
+                    .Where(u => u.Creator.Username == _creator);
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+            // creator && solver
+            if (_id == default && _creator != default && _solver != default && _state == default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator)
+                    .Where(u => (u.Creator.Username == _creator) && (u.Solver.Username == _solver));
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+            // creator && solver && state
+            if (_id == default && _creator != default && _solver != default && _state != default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator)
+                    .Where(u => (u.Creator.Username == _creator) && (u.Solver.Username == _solver) && (u.TicketState == _state));
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+            // creator && state
+            if (_id == default && _creator != default && _solver == default && _state != default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator)
+                    .Where(u => (u.Creator.Username == _creator) && (u.TicketState == _state));
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+
+            // solver
+            if (_id == default && _creator == default && _solver != default && _state == default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator)
+                    .Where(u => (u.Solver.Username == _solver));
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+            // solver && state
+            if (_id == default && _creator == default && _solver != default && _state != default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator)
+                    .Where(u => (u.Solver.Username == _solver) && (u.TicketState == _state));
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+
+            // state
+            if (_id == default && _creator == default && _solver == default && _state != default)
+            {
+                IEnumerable<Ticket> tickets = _db.Tickets.Include(u => u.Solver).Include(u => u.Creator)
+                    .Where(u => (u.TicketState == _state));
+                foreach (Ticket ticket in tickets)
+                {
+                    resultList.Add(new ShortTicket()
+                    {
+                        Id = ticket.Id,
+                        Creator = ticket.Creator?.Username,
+                        Solver = ticket.Solver?.Username,
+                        TicketState = ticket.TicketState
+                    });
+                }
+                return View(resultList);
+            }
+
+            return View();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetMyTickets()
         {
             List<ShortTicket> tickets = new();
@@ -117,7 +375,52 @@ namespace TicketSystem.Web.Controllers
             return View((object)result);
         }
 
+        [Route("Ticket/AssignOnMe/{id:int}")]
+        [Authorize(Roles = "admin, support")]
+        public async Task<IActionResult> AssignOnMe(int id)
+        {
+            string result = null;
+            try
+            {
+                Ticket ticket = await _db.Tickets.Include(u => u.Solver).FirstOrDefaultAsync(u => u.Id == id);
+                User user = await _db.Users.FirstOrDefaultAsync(u => u.Username == User.Identity.Name);
 
+                ticket.Solver = user;
+
+                _db.Update(ticket);
+                await _db.SaveChangesAsync();
+
+                result = $"You were assigned to ticket with ID {id}";
+            }
+            catch (Exception)
+            {
+                result = $"You were not assigned to ticket with ID {id}. Something went wrong.";
+            }
+            return View((object)result);
+        }
+
+        [Route("Ticket/UnassignFromMe/{id:int}")]
+        [Authorize(Roles = "admin, support")]
+        public async Task<IActionResult> UnassignFromMe(int id)
+        {
+            string result = null;
+            try
+            {
+                Ticket ticket = await _db.Tickets.Include(u => u.Solver).FirstOrDefaultAsync(u => u.Id == id);
+
+                ticket.Solver = null;
+
+                _db.Update(ticket);
+                await _db.SaveChangesAsync();
+
+                result = $"You were unassigned from ticket with ID {id}";
+            }
+            catch (Exception)
+            {
+                result = $"You were not unassigned to ticket with ID {id}. Something went wrong.";
+            }
+            return View((object)result);
+        }
 
         [HttpPost]
         public async Task<IActionResult> CloseTicketWithSolution(CloseTicketModel model)
