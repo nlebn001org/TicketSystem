@@ -29,7 +29,7 @@ namespace TicketSystem.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+            
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -37,7 +37,7 @@ namespace TicketSystem.Web
                     options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login/");
                 });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             //  services.AddDbContext<SystemDbContext>(options => options.UseSqlServer
             //("server=(localdb)\\MSSQLLocaldb;database=tsystemdb;trusted_connection=true"));
 

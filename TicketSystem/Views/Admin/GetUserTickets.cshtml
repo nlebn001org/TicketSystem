@@ -1,26 +1,36 @@
-﻿@model List<TicketSystem.Web.ViewModels.ShortTicket>
+﻿@model (List<TicketSystem.Web.ViewModels.ShortTicket>, string)
 
-<h3>User @Model[0].Creator has @Model.Count ticket(s).</h3>
-
-<table>
-    <tr>
-        <th>Ticket ID</th>
-        <th>Creator</th>
-        <th>Title</th>
-        <th>Creation date</th>
-        <th>Ticket state</th>
-        <th>Solver</th>
-    </tr>
-    @foreach (TicketSystem.Web.ViewModels.ShortTicket ticket in Model)
+@{
+    if (Model.Item1.Count == 0)
     {
-        <tr>
-            <td>@ticket.Id</td>
-            <td>@ticket.Creator</td>
-            <td>@ticket.Title</td>
-            <td>@ticket.DateCreated</td>
-            <td>@ticket.TicketState</td>
-            <td>@ticket.Solver</td>
-            <td><a asp-action="GetTicket" asp-controller="Ticket" asp-route-id="@ticket.Id">Details</a></td>
-        </tr>
+    <p>User @Model.Item2 does not have any ticket</p>
     }
-</table>
+    else
+    {
+        <h3>User @Model.Item1[0].Creator has @Model.Item1.Count ticket(s).</h3>
+
+        <table>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Creator</th>
+                <th>Title</th>
+                <th>Creation date</th>
+                <th>Ticket state</th>
+                <th>Solver</th>
+            </tr>
+            @foreach (TicketSystem.Web.ViewModels.ShortTicket ticket in Model.Item1)
+            {
+                <tr>
+                    <td>@ticket.Id</td>
+                    <td>@ticket.Creator</td>
+                    <td>@ticket.Title</td>
+                    <td>@ticket.DateCreated</td>
+                    <td>@ticket.TicketState</td>
+                    <td>@ticket.Solver</td>
+                    <td><a asp-action="GetTicket" asp-controller="Ticket" asp-route-id="@ticket.Id">Details</a></td>
+                </tr>
+            }
+        </table>
+    }
+}
+

@@ -5,10 +5,6 @@
 <h4>If you want to change a password, you should type your previous password and enter 2x your new</h4>
 <h4>All unchanged data will not be changed</h4>
 
-@*<h3>Your username is: @Model.Username and your role is: @Model.Role.RoleName.</h3>*@
-
-
-
 <form onsubmit="if(!confirm('Is the form filled out correctly?')){return false;}" asp-action="MyAccount" asp-controller="Account" asp-antiforgery="true" >
     <div class="validation" asp-validation-summary="ModelOnly"></div>
 

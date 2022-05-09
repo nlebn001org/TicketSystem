@@ -188,7 +188,7 @@ namespace TicketSystem.Web.Controllers
         public async Task<IActionResult> GetUserTickets(string username)
         {
             User user = await _db.Users.Include(u => u.Tickets).ThenInclude(u => u.Solver).
-                FirstOrDefaultAsync(u => u.Username == username);
+                 FirstOrDefaultAsync(u => u.Username == username);
 
             List<Ticket> tickets = user.Tickets.ToList();
             List<ShortTicket> shortTickets = new();
@@ -204,7 +204,7 @@ namespace TicketSystem.Web.Controllers
                     Solver = ticket.Solver?.Username
                 });
             }
-            return View(shortTickets);
+            return View((shortTickets, username));
         }
 
         [HttpGet]
