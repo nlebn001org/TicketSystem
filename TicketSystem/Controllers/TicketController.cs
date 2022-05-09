@@ -386,6 +386,7 @@ namespace TicketSystem.Web.Controllers
                 User user = await _db.Users.FirstOrDefaultAsync(u => u.Username == User.Identity.Name);
 
                 ticket.Solver = user;
+                ticket.TicketState = TicketState.Assigned;
 
                 _db.Update(ticket);
                 await _db.SaveChangesAsync();
@@ -409,6 +410,7 @@ namespace TicketSystem.Web.Controllers
                 Ticket ticket = await _db.Tickets.Include(u => u.Solver).FirstOrDefaultAsync(u => u.Id == id);
 
                 ticket.Solver = null;
+                ticket.TicketState = TicketState.Created;
 
                 _db.Update(ticket);
                 await _db.SaveChangesAsync();

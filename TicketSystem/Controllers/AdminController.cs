@@ -155,7 +155,7 @@ namespace TicketSystem.Web.Controllers
             {
                 User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
                 user.DateChanged = DateTime.Now;
-                user.Password = model.NewPassword;
+                user.Password = PasswordEncryptor.Encrypt(model.NewPassword);
                 try
                 {
                     _db.Update(user);
@@ -187,7 +187,7 @@ namespace TicketSystem.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> GetUserTickets(string username)
         {
-            User user = await _db.Users.Include(u => u.Tickets).ThenInclude(u=>u.Solver).
+            User user = await _db.Users.Include(u => u.Tickets).ThenInclude(u => u.Solver).
                 FirstOrDefaultAsync(u => u.Username == username);
 
             List<Ticket> tickets = user.Tickets.ToList();
@@ -201,7 +201,7 @@ namespace TicketSystem.Web.Controllers
                     Title = ticket.Title,
                     DateCreated = ticket.DateCreated,
                     TicketState = ticket.TicketState,
-                    Solver = ticket.Solver?.Username      
+                    Solver = ticket.Solver?.Username
                 });
             }
             return View(shortTickets);
@@ -221,7 +221,7 @@ namespace TicketSystem.Web.Controllers
                 User user = new()
                 {
                     Username = userModel.Username,
-                    Password = userModel.Password,
+                    Password = PasswordEncryptor.Encrypt(userModel.Password),
                     Email = userModel.Email,
                     Name = userModel.Name,
                     Surname = userModel.Surname,
