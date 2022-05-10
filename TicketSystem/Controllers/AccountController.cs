@@ -62,10 +62,11 @@ namespace TicketSystem.Web.Controllers
         //encrypted password done
         public async Task<IActionResult> Register(RegisterModel model)
         {
-            string encryptedPassword = PasswordEncryptor.Encrypt(model.Password);
+            
 
             if (ModelState.IsValid)
             {
+                string encryptedPassword = PasswordEncryptor.Encrypt(model.Password);
                 User user = await _db.Users.FirstOrDefaultAsync(u => u.Username == model.Username);
                 if (user == null)
                 {

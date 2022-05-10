@@ -1,53 +1,49 @@
-﻿
-/*
-    body
-*/
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+﻿.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.75s, visibility 0.75s;
+    z-index: 100;
 }
 
-/*
-    header
-*/
-.header {
-    overflow: hidden;
-    background-color: #f1f1f1;
-    padding: 20px 10px;
+.loader--hidden {
+    opacity: 0;
+    visibility: hidden;
 }
 
-    .header a {
-        float: left;
-        color: black;
-        text-align: center;
-        padding: 12px;
-        text-decoration: none;
-        font-size: 18px;
-        line-height: 25px;
-        border-radius: 4px;
+.loader::after {
+    content: "";
+    width: 75px;
+    height: 75px;
+    border: 15px solid #dddddd;
+    border-top-color: #009578;
+    border-radius: 50%;
+    animation: loading 0.75s ease infinite;
+}
+
+@keyframes loading {
+    from {
+        transform: rotate(0turn);
     }
 
-.header .login-section {
-    float: right;
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+#render {
+    margin-top: 100px;
 }
 
 
-/*
-    footer
-*/
-
-.footer {
+footer {
     position: fixed;
-    left: 0;
+    height: 100px;
     bottom: 0;
     width: 100%;
-    background-color: #f1f1f1;
-    color: black;
-    padding: 10px;
-    text-align: center;
 }
-
-.server-time{
-    float:inline-end;
-}
-
