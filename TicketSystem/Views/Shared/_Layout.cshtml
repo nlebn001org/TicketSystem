@@ -8,17 +8,6 @@
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script type="text/javascript" src="/js/JavaScript.js"></script>
-
-
-    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>*@
-    @*<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
-              rel="stylesheet"
-              integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
-              crossorigin="anonymous" />
-        <link rel="stylesheet"
-              href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
-        <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css"
-              rel="stylesheet" />*@
 </head>
 
 <body>
@@ -31,60 +20,63 @@
     }
     @*role definer*@
 
+    <header id="headerEl">
+        @*navbar starts*@
+        <div class="navbar navbar-expand-lg bg-dark navbar-dark py-3 ">
+            <div class="container">
+                <a asp-action="Index" asp-controller="Home"><img src="~/img/main-icon.png" alt="Alternate Text" width="60" height="60" /></a>
+                <a asp-action="Index" asp-controller="Home" class="navbar-brand px-4">Pet project</a>
 
-    @*navbar starts*@
-    <div id="mainNavbar" class="navbar navbar-expand-lg bg-dark navbar-dark py-3 fixed-top">
-        <div class="container">
-            <a asp-action="Index" asp-controller="Home"><img src="~/img/main-icon.png" alt="Alternate Text" width="60" height="60" /></a>
-            <a href="#" class="navbar-brand">Frontend Bootcamp</a>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navmenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navmenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navmenu">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Home">Home</a></li>
-                    @if (@User.Identity.Name == null)
-                    {
-                        <li class="nav-item"><a class="nav-link" asp-action="Register" asp-controller="Account">Register</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-action="Login" asp-controller="Account">Login</a></li>
-                    }
-                    else
-                    {
-                        <li class="nav-item"><a asp-action="MyAccount" asp-controller="Account" class="nav-link">@User.Identity.Name</a></li>
-                        <li class="nav-item"><a asp-action="CreateNewTicket" asp-controller="Ticket" class="nav-link">Create a ticket</a></li>
-                        <li class="nav-item"><a asp-action="Logout" asp-controller="Account" class="nav-link">Lougout</a></li>
-                    }
-                    @if (role == "admin")
-                    {
-                        <li class="nav-item"><a asp-action="UserManaging" asp-controller="Admin" class="nav-link">User managing</a></li>
-                        <li class="nav-item"><a asp-action="GetTicketList" asp-controller="Ticket" class="nav-link">Ticket managing</a></li>
-                    }
-                    @if (role == "support")
-                    {
-                        <li class="nav-item"><a asp-action="GetTicketList" asp-controller="Ticket" class="nav-link">Ticket managing</a></li>
-                    }
-                    @if (role == "customer")
-                    {
-                        <li class="nav-item"><a asp-action="GetMyTickets" asp-controller="Ticket" class="nav-link">My tickets</a></li>
-                    }
-                </ul>
+                <div class="collapse navbar-collapse" id="navmenu">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Home">Home</a></li>
+                        @if (@User.Identity.Name == null)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-action="Register" asp-controller="Account">Register</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-action="Login" asp-controller="Account">Login</a></li>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a asp-action="MyAccount" asp-controller="Account" class="nav-link">@User.Identity.Name</a></li>
+                            <li class="nav-item"><a asp-action="CreateNewTicket" asp-controller="Ticket" class="nav-link">Create a ticket</a></li>
+                            <li class="nav-item"><a asp-action="Logout" asp-controller="Account" class="nav-link">Lougout</a></li>
+                        }
+                        @if (role == "admin")
+                        {
+                            <li class="nav-item"><a asp-action="UserManaging" asp-controller="Admin" class="nav-link">User managing</a></li>
+                            <li class="nav-item"><a asp-action="GetTicketList" asp-controller="Ticket" class="nav-link">Ticket managing</a></li>
+                        }
+                        @if (role == "support")
+                        {
+                            <li class="nav-item"><a asp-action="GetTicketList" asp-controller="Ticket" class="nav-link">Ticket managing</a></li>
+                        }
+                        @if (role == "customer")
+                        {
+                            <li class="nav-item"><a asp-action="GetMyTickets" asp-controller="Ticket" class="nav-link">My tickets</a></li>
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-    @*navbar ends*@
+        @*navbar ends*@
+    </header>
+
 
     @*content starts*@
-    <div id="render" class="container">
+    <main>
         @RenderBody()
-    </div>
+    </main>
     @*content ends*@
 
-    <footer class="py-3 my-4 flex-shrink">
+
+    <footer class="py-3 my-4 flex-shrink ">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>

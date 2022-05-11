@@ -1,29 +1,60 @@
 ﻿@model TicketSystem.Web.ViewModels.RegisterModel
 
-<h2>Registration page.</h2>
+<section id="registerContainer" class="container vh-100 bg-image">
+    <div class="mask d-flex align-items-center gradient-custom-3 " style="margin-top:50px" >
+        <div class="container ">
+            <div class=" d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-5">
+                            <h2 class="text-uppercase text-center mb-5">Create an account</h2>
 
+                            <form asp-action="Register" asp-controller="Account" asp-antiforgery="true">
+                                <div class="validation" asp-validation-summary="ModelOnly"></div>
 
+                                <!-- Username input -->
+                                <div class="form-outline mb-4">
+                                    <input type="text" asp-for="Username" class="form-control form-control-lg" placeholder="Enter your username" />
+                                    <label class="form-label" asp-for="Username">Username</label>
+                                    <span asp-validation-for="Username"></span>
+                                </div>
 
-<form asp-action="Register" asp-controller="Account" asp-antiforgery="true">
-    <div class="validation" asp-validation-summary="ModelOnly"></div>
-    <div>
-        <div class="form-group">
-            <label asp-for="Username">Input Username</label>
-            <input type="text" asp-for="Username" />
-            <span asp-validation-for="Username"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Password">Input Password</label>
-            <input type="password" asp-for="Password" />
-            <span asp-validation-for="Password"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="ConfirmPassword">Confirm your password</label>
-            <input type="password" asp-for="ConfirmPassword" />
-            <span asp-validation-for="ConfirmPassword"></span>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Register" />
+                                <!-- Password input -->
+                                <div class="form-outline mb-4">
+                                    <input type="password" asp-for="Password" class="form-control form-control-lg" placeholder="Enter password" />
+                                    <label class="form-label" asp-for="Password">Password</label>
+                                    <span asp-validation-for="Username"></span>
+                                </div>
+
+                                <!-- Password confirmation -->
+                                <div class="form-outline mb-4">
+                                    <input type="password" asp-for="ConfirmPassword" class="form-control form-control-lg" placeholder="Confirm password" />
+                                    <label class="form-label" asp-for="ConfirmPassword">Confirm your password</label>
+                                    <span asp-validation-for="ConfirmPassword"></span>
+                                </div>
+
+                                <div class="form-check d-flex justify-content-center mb-5">
+                                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
+                                    <label class="form-check-label" for="form2Example3g">
+                                        I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
+                                    </label>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit"
+                                            class="btn btn-primary btn-block btn-lg gradient-custom-4 ">
+                                        Register
+                                    </button>
+                                </div>
+
+                                <p class="text-center text-muted mt-5 mb-0">
+                                    Have already an account? <a asp-action="Login" asp-controller="Account" class="link-danger">Login here</a>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</form>
+</section>
