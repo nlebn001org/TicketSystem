@@ -115,17 +115,24 @@ namespace TicketSystem.Web.Controllers
             {
                 if (user != null)
                 {
-                    if (!string.IsNullOrEmpty(accountModel.NewPassword) || !string.IsNullOrEmpty(accountModel.OldPassword) ||
-                        !string.IsNullOrEmpty(accountModel.ConfirmPassword))
+                    try
                     {
-                        if (user.Password != PasswordEncryptor.Encrypt(accountModel.OldPassword))
-                            ModelState.AddModelError("", "You must enter your previous password for change");
-                        if (accountModel.NewPassword.Length < 3)
-                            ModelState.AddModelError("", "Your password must not be empty or less than 3 symbols.");
-                        else
-                            user.Password = PasswordEncryptor.Encrypt(accountModel.NewPassword);
+                        if (!string.IsNullOrEmpty(accountModel.NewPassword) || !string.IsNullOrEmpty(accountModel.OldPassword) ||
+                     !string.IsNullOrEmpty(accountModel.ConfirmPassword))
+                        {
+                            if (user.Password != PasswordEncryptor.Encrypt(accountModel.OldPassword))
+                                ModelState.AddModelError("", "You must enter your previous password for change");
+                            if (accountModel.NewPassword?.Length < 3)
+                                ModelState.AddModelError("", "Your password must not be empty or less than 3 symbols.");
+                            else
+                                user.Password = PasswordEncryptor.Encrypt(accountModel.NewPassword);
+                        }
                     }
-
+                    catch (Exception)
+                    {
+                        ModelState.AddModelError("", "Form is not complete");
+                    }
+                 
                     user.Email = string.IsNullOrEmpty(accountModel.Email) ? user.Email : accountModel.Email;
                     user.Name = string.IsNullOrEmpty(accountModel.Name) ? user.Name : accountModel.Name;
                     user.Surname = string.IsNullOrEmpty(accountModel.Surname) ? user.Surname : accountModel.Surname;
