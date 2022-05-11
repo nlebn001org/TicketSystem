@@ -56,6 +56,7 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
+
 }
 
 header,
@@ -86,7 +87,6 @@ footer {
 
 main {
     min-height: 100%;
-    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     flex: auto;
 }

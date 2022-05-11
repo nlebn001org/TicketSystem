@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CustomInterfaces\**" />
+    <Compile Remove="Views\Support\**" />
+    <Content Remove="CustomInterfaces\**" />
+    <Content Remove="Views\Support\**" />
+    <EmbeddedResource Remove="CustomInterfaces\**" />
+    <EmbeddedResource Remove="Views\Support\**" />
+    <None Remove="CustomInterfaces\**" />
+    <None Remove="Views\Support\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.14" />
@@ -17,8 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CustomInterfaces\ControllerInterfaces\" />
-    <Folder Include="Views\Support\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 

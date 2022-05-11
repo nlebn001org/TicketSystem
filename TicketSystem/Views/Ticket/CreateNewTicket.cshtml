@@ -1,19 +1,40 @@
 ﻿@model TicketSystem.Web.ViewModels.NewTicketModel
 
-<form asp-action="CreateNewTicket" asp-controller="Ticket" asp-antiforgery="true">
-    <div class="form-group">
-        <label asp-for="@Model.Title">Title</label>
-        <br />
-        <input type="text" asp-for="@Model.Title" />
-        <span asp-validation-for="@Model.Title"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.Description">Description</label>
-        <br />
-        <input type="text" asp-for="@Model.Description" />
-        <span asp-validation-for="@Model.Description"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Create" />
-    </div>
-</form>
+    <section id="registerContainer" class="container vh-100 bg-image">
+        <div class="mask d-flex align-items-center gradient-custom-3 " style="margin-top:50px">
+            <div class="container ">
+                <div class=" d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                        <div class="card" style="border-radius: 15px;">
+                            <div class="card-body p-5">
+                                <h2 class="text-uppercase text-center mb-5">New request</h2>
+
+                                <form asp-action="CreateNewTicket" asp-controller="Ticket" asp-antiforgery="true">
+                                    <!-- Username input -->
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" asp-for="@Model.Title">Title</label>
+                                        <input type="text" asp-for="@Model.Title" class="form-control form-control-lg" placeholder="Title of an issue or request" />
+                                        <span asp-validation-for="@Model.Title"></span>
+                                    </div>
+
+                                    <!-- Password input -->
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" asp-for="@Model.Description">Description</label>
+                                        <textarea rows="5" cols="50" asp-for="@Model.Description" class="form-control form-control-lg"></textarea>
+                                        <span asp-validation-for="@Model.Description"></span>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center">
+                                        <button type="submit"
+                                                class="btn btn-primary btn-block btn-lg gradient-custom-4 ">
+                                            Create ticket
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
