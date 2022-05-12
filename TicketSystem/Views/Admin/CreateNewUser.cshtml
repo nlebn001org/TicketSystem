@@ -1,46 +1,69 @@
 ﻿@model TicketSystem.Web.ViewModels.NewUserModel
 
-<form onsubmit="if(!confirm('User will be created')){return false;}" asp-action="CreateNewUser" asp-controller="Admin" asp-antiforgery="true">
-    <div class="validation" asp-validation-summary="ModelOnly"></div>
 
-    <div class="form-group">
-        <label asp-for="Username"></label>
-        <input type="text" asp-for="Username" />
-        <span asp-validation-for="Username"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input type="password" asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input type="text" asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input type="text" asp-for="Name" />
-        <span asp-validation-for="Name"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Surname"></label>
-        <input type="text" asp-for="Surname" />
-        <span asp-validation-for="Surname"></span>
-    </div>
-    <div class="form-group">
-        <p>
-            <label asp-for="RoleName"></label>
-            <select asp-for="RoleName">
-                <option disabled>Role</option>
-                <option selected value="customer">User</option>
-                <option value="support">Support</option>
-                <option value="admin">Admin</option>
-            </select>
-        </p>
-    </div>
+<section id="registerContainer" class="container vh-100 bg-image">
+    <div class="mask d-flex align-items-center gradient-custom-3 " style="margin-top:50px">
+        <div class="container ">
+            <div class=" d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-5">
+                            <h2 class="text-uppercase text-center mb-5">Create an account</h2>
 
-    <div class="form-group">
-        <input type="submit" value="Create user" />
+
+
+                            <form onsubmit="if(!confirm('User will be created')){return false;}" asp-action="CreateNewUser" asp-controller="Admin" asp-antiforgery="true">
+                                <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+                                <div class="form-outline mb-4">
+                                    <label asp-for="Username"></label>
+                                    <input class="form-control form-control-sm" type="text" asp-for="Username" />
+                                    <span asp-validation-for="Username"></span>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <label asp-for="Password"></label>
+                                    <input class="form-control form-control-sm" type="password" asp-for="Password" />
+                                    <span asp-validation-for="Password"></span>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <label asp-for="Email"></label>
+                                    <input class="form-control form-control-sm" type="text" asp-for="Email" />
+                                    <span asp-validation-for="Email"></span>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <label asp-for="Name"></label>
+                                    <input class="form-control form-control-sm" type="text" asp-for="Name" />
+                                    <span asp-validation-for="Name"></span>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <label asp-for="Surname"></label>
+                                    <input class="form-control form-control-sm" type="text" asp-for="Surname" />
+                                    <span asp-validation-for="Surname"></span>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <p>
+                                        <label asp-for="RoleName"></label>
+                                        <select class="form-control form-control-sm" asp-for="RoleName">
+                                            <option disabled>Role</option>
+                                            <option selected value="customer">User</option>
+                                            <option value="support">Support</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
+                                    </p>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit"
+                                            class="btn btn-primary btn-success btn-lg gradient-custom-4 ">
+                                        Create user
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</form>
+</section>

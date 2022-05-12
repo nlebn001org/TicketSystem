@@ -1,137 +1,79 @@
-﻿@model TicketSystem.Web.ViewModels.MyAccountModel;
+﻿@model TicketSystem.Web.ViewModels.MyAccountModel
 
-<h2>Your account</h2>
-<h3>Here you can see actual information about your account and change your data.</h3>
-<h4>If you want to change a password, you should type your previous password and enter 2x your new</h4>
-<h4>All unchanged data will not be changed</h4>
+<section class="container vh-100 bg-image">
+    <div class="mask d-flex align-items-center gradient-custom-3 " style="margin-top:50px">
+        <div class="container ">
+            <div class=" d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-5">
 
+                            <h2 class="text-uppercase text-center mb-5">My account</h2>
 
-<div class="container">
-    <form onsubmit="if(!confirm('Is the form filled out correctly?')){return false;}" asp-action="MyAccount" asp-controller="Account" asp-antiforgery="true">
-        <div class="validation" asp-validation-summary="ModelOnly"></div>
+                            <form onsubmit="if(!confirm('Is the form filled out correctly?')){return false;}" asp-action="MyAccount" asp-controller="Account" asp-antiforgery="true">
+                                <div class="validation" asp-validation-summary="ModelOnly"></div>
 
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th>####</th>
-                    <th>Actual</th>
-                    <th>Change to</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><label asp-for="Username">Username</label></td>
-                    <td>@Model.Username</td>
-                    <td>Not editable<input type="hidden" name="Username" value="@Model.Username" /></td>
-                </tr>
-                <tr>
-                    <td><label asp-for="Role">Role</label></td>
-                    <td>@Model.Role.RoleName</td>
-                    <td>Not editable<input type="hidden" name="Role" value="@Model.Role" /></td>
-                </tr>
-                <tr>
-                    <td><label asp-for="Email">Email</label></td>
-                    <td>@(Model.Email == null ? "Empty" : Model.Email)</td>
-                    <td><input type="email" asp-for="Email" /></td>
-                    <td><span asp-validation-for="Email"></span></td>
-                </tr>
-                <tr>
-                    <td>Name</td>
-                    <td>@(Model.Name == null ? "Empty" : Model.Name)</td>
-                    <td><input type="text" asp-for="Name" /></td>
-                    <td><span asp-validation-for="Name"></span></td>
-                </tr>
-                <tr>
-                    <td>Surname</td>
-                    <td>@(Model.Surname == null ? "Empty" : Model.Surname)</td>
-                    <td><input type="text" asp-for="Surname" /></td>
-                    <td><span asp-validation-for="Surname"></span></td>
-                </tr>
-                <tr>
-                    <td>Old password</td>
-                    <td>Not shown</td>
-                    <td><input type="password" asp-for="OldPassword" /></td>
-                    <td><span asp-validation-for="OldPassword"></span></td>
-                </tr>
-                <tr>
-                    <td>Old password</td>
-                    <td>Not shown</td>
-                    <td><input type="password" asp-for="NewPassword" /></td>
-                    <td><span asp-validation-for="NewPassword"></span></td>
-                </tr>
-                <tr>
-                    <td>Confirm password</td>
-                    <td>Not shown</td>
-                    <td><input type="password" asp-for="ConfirmPassword" /></td>
-                    <td><span asp-validation-for="ConfirmPassword"></span></td>
-                </tr>
-            </tbody>
-        </table>
-        <button type="submit" class="btn btn-primary btn-lg"
-                style="padding-left: 2.5rem; padding-right: 2.5rem;">
-            Submit
-        </button>
-    </form>
-</div>
+                                <table class="table border">
+                                    <tbody>
+                                        <tr>
+                                            <td><label asp-for="Username">Username</label></td>
+                                            <td>@Model.Username</td>
+                                            <td>Not editable<input type="hidden" name="Username" value="@Model.Username" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label asp-for="Role">Role</label></td>
+                                            <td>@Model.Role.RoleName</td>
+                                            <td>Not editable<input type="hidden" name="Role" value="@Model.Role" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label asp-for="Email">Email</label></td>
+                                            <td>@(Model.Email == null ? "Empty" : Model.Email)</td>
+                                            <td><input type="email" asp-for="Email" /></td>
+                                            <td><span asp-validation-for="Email"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>@(Model.Name == null ? "Empty" : Model.Name)</td>
+                                            <td><input type="text" asp-for="Name" /></td>
+                                            <td><span asp-validation-for="Name"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Surname</td>
+                                            <td>@(Model.Surname == null ? "Empty" : Model.Surname)</td>
+                                            <td><input type="text" asp-for="Surname" /></td>
+                                            <td><span asp-validation-for="Surname"></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success btn-lg "
+                                            style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                                        Submit
+                                    </button>
+                                </div>
+                            </form>
+                            <br />
 
-<div>
-    <form onsubmit="if(!confirm('Account will be deleted.')){return false;}" asp-action="DeleteAccount" asp-controller="Account">
-        <button type="submit" class="btn btn-primary btn-lg"
-                style="padding-left: 2.5rem; padding-right: 2.5rem;">
-            Delete my account
-        </button>
-    </form>
-</div>
-
-
-
-
-@*<form onsubmit="if(!confirm('Is the form filled out correctly?')){return false;}" asp-action="MyAccount" asp-controller="Account" asp-antiforgery="true">
-    <div class="validation" asp-validation-summary="ModelOnly"></div>*@
-
-@*<div class="form-group">
-        <label asp-for="Username">Username: @Model.Username</label>
-        <input type="hidden" name="Username" value="@Model.Username" />
-    </div>*@
-@*<div class="form-group">
-        <label asp-for="Role">Role: @Model.Role.RoleName</label>
-        <input type="hidden" name="Role" value="@Model.Role" />
-    </div>*@
-@*<div class="form-group">
-        <label asp-for="Email">Your email is: @(Model.Email == null ? "Empty" : Model.Email)</label>
-        <input type="email" asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>*@
-@*<div class="form-group">
-        <label asp-for="Name">Your name is: @(Model.Name == null ? "Empty" : Model.Name)</label>
-        <input type="text" asp-for="Name" />
-        <span asp-validation-for="Name"></span>
-    </div>*@
-@*<div class="form-group">
-        <label asp-for="Surname">Your surname is: @(Model.Surname == null ? "Empty" : Model.Surname)</label>
-        <input type="text" asp-for="Surname" />
-        <span asp-validation-for="Surname"></span>
-    </div>*@
-@*<div class="form-group">
-        <label asp-for="OldPassword"></label>
-        <input type="password" asp-for="OldPassword" />
-        <span asp-validation-for="OldPassword"></span>
-    </div>*@
-@*<div class="form-group">
-        <label asp-for="NewPassword"></label>
-        <input type="password" asp-for="NewPassword" />
-        <span asp-validation-for="NewPassword"></span>
-    </div>*@
-@*<div class="form-group">
-        <label asp-for="ConfirmPassword"></label>
-        <input type="password" asp-for="ConfirmPassword" />
-        <span asp-validation-for="ConfirmPassword"></span>
-    </div>*@
-
-@*<div class="form-group">
-            <input type="submit" value="Save Changes" />
+                            <div class="text-center">
+                                <a button class="btn btn-primary btn-lg"
+                                   style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                                   asp-action="ChangePassword" asp-controller="Account">
+                                    Change password
+                                </a>
+                            </div>
+                            <br />
+                            <div class="text-center">
+                                <form onsubmit="if(!confirm('Account will be deleted.')){return false;}" asp-action="DeleteAccount" asp-controller="Account">
+                                    <button type="submit" class="btn btn-primary btn-lg"
+                                            style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                                        Delete my account
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </form>*@
-
-
-
+    </div>
+</section>

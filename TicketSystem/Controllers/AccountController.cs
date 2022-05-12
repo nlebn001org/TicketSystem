@@ -62,8 +62,6 @@ namespace TicketSystem.Web.Controllers
         //encrypted password done
         public async Task<IActionResult> Register(RegisterModel model)
         {
-            
-
             if (ModelState.IsValid)
             {
                 string encryptedPassword = PasswordEncryptor.Encrypt(model.Password);
@@ -115,24 +113,24 @@ namespace TicketSystem.Web.Controllers
             {
                 if (user != null)
                 {
-                    try
-                    {
-                        if (!string.IsNullOrEmpty(accountModel.NewPassword) || !string.IsNullOrEmpty(accountModel.OldPassword) ||
-                     !string.IsNullOrEmpty(accountModel.ConfirmPassword))
-                        {
-                            if (user.Password != PasswordEncryptor.Encrypt(accountModel.OldPassword))
-                                ModelState.AddModelError("", "You must enter your previous password for change");
-                            if (accountModel.NewPassword?.Length < 3)
-                                ModelState.AddModelError("", "Your password must not be empty or less than 3 symbols.");
-                            else
-                                user.Password = PasswordEncryptor.Encrypt(accountModel.NewPassword);
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        ModelState.AddModelError("", "Form is not complete");
-                    }
-                 
+                    //try
+                    //{
+                    //    if (!string.IsNullOrEmpty(accountModel.NewPassword) || !string.IsNullOrEmpty(accountModel.OldPassword) ||
+                    // !string.IsNullOrEmpty(accountModel.ConfirmPassword))
+                    //    {
+                    //        if (user.Password != PasswordEncryptor.Encrypt(accountModel.OldPassword))
+                    //            ModelState.AddModelError("", "You must enter your previous password for change");
+                    //        if (accountModel.NewPassword?.Length < 3)
+                    //            ModelState.AddModelError("", "Your password must not be empty or less than 3 symbols.");
+                    //        else
+                    //            user.Password = PasswordEncryptor.Encrypt(accountModel.NewPassword);
+                    //    }
+                    //}
+                    //catch (Exception)
+                    //{
+                    //    ModelState.AddModelError("", "Form is not complete");
+                    //}
+
                     user.Email = string.IsNullOrEmpty(accountModel.Email) ? user.Email : accountModel.Email;
                     user.Name = string.IsNullOrEmpty(accountModel.Name) ? user.Name : accountModel.Name;
                     user.Surname = string.IsNullOrEmpty(accountModel.Surname) ? user.Surname : accountModel.Surname;
@@ -146,11 +144,53 @@ namespace TicketSystem.Web.Controllers
             return View(accountModel);
         }
 
+        public async Task<IActionResult> ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            User user = await _db.Users.FirstOrDefaultAsync(u => u.Username == User.Identity.Name);
+
+            if (user.Password != PasswordEncryptor.Encrypt(model.OldPassword))
+                ModelState.AddModelError("", "You must enter your previous password for change");
+
+            if (model.NewPassword?.Length < 3)
+                ModelState.AddModelError("", "Your password must not be empty or less than 3 symbols.");
+
+            if (!ModelState.IsValid) return View(model);
+
+            try
+            {
+                user.Password = PasswordEncryptor.Encrypt(model.NewPassword);
+                _db.Update(user);
+                _db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Something went wrong.");
+                return View(model);
+            }
+
+            return RedirectToAction("ChangePasswordResult", "Account");
+        }
+
+
+        public async Task<IActionResult> ChangePasswordResult()
+        {
+            string result = $"Your password has been changed.";
+            return View((object)result);
+        }
+
         public async Task<IActionResult> DeleteAccount()
         {
             User user = await _db.Users.FirstOrDefaultAsync(u => u.Username == User.Identity.Name);
-            if (user == null)
-                ModelState.AddModelError("", "Something went wrong.");
+            //if (user == null)
+            //    ModelState.AddModelError("", "Something went wrong.");
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             _db.Users.Remove(user);
             await _db.SaveChangesAsync();

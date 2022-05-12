@@ -18,13 +18,13 @@ namespace TicketSystem.Web.ViewModels
         //todo: add option to change a photo
         //public string PhotoPath { get; set; }
 
-        [DataType(DataType.Password)]
-        public string OldPassword { get; set; }
-        [DataType(DataType.Password)]
-        public string NewPassword { get; set; }
+        //[DataType(DataType.Password)]
+        //public string OldPassword { get; set; }
+        //[DataType(DataType.Password)]
+        //public string NewPassword { get; set; }
 
-        [DataType(DataType.Password)]
-        [Compare("NewPassword", ErrorMessage = "Password is wrong.")]
-        public string ConfirmPassword { get; set; }
+        //[DataType(DataType.Password)]
+        //[Compare("NewPassword", ErrorMessage = "Password is wrong.")]
+        //public string ConfirmPassword { get; set; }
     }
 }

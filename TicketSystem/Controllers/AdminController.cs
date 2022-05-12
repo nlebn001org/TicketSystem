@@ -184,6 +184,7 @@ namespace TicketSystem.Web.Controllers
             List<ShortTicket> shortTickets = new();
             return View(shortTickets);
         }
+
         [HttpPost]
         public async Task<IActionResult> GetUserTickets(string username)
         {
@@ -250,7 +251,7 @@ namespace TicketSystem.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCreationResult(string username)
         {
-            string message = $"User with {username} was created.";
+            string message = $"User with username {username} was created.";
             return View((object)message);
         }
         //TODO sign out the user if he is signed in. 

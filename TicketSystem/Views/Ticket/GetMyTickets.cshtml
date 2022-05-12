@@ -1,21 +1,26 @@
 ﻿@model List<TicketSystem.Web.ViewModels.ShortTicket>
 
-<table>
-    <tr>
-        <th>Ticket ID</th>
-        <th>Title</th>
-        <th>Creation date</th>
-        <th>Ticket state</th>
-
-    </tr>
-    @foreach (TicketSystem.Web.ViewModels.ShortTicket ticket in Model)
-    {
-        <tr>
-            <td>@ticket.Id</td>
-            <td>@ticket.Title</td>
-            <td>@ticket.DateCreated</td>
-            <td>@ticket.TicketState</td>
-            <td><a asp-action="GetTicket" asp-controller="Ticket" asp-route-id="@ticket.Id">Details</a></td>
-        </tr>
-    }
-</table>
+<div class="container mt-4">
+    <table class="table border">
+        <thead class="thead-dark">
+            <tr>
+                <th>Ticket ID</th>
+                <th>Title</th>
+                <th>Creation date</th>
+                <th>Ticket state</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (TicketSystem.Web.ViewModels.ShortTicket ticket in Model)
+            {
+                <tr>
+                    <td>@ticket.Id</td>
+                    <td>@ticket.Title</td>
+                    <td>@ticket.DateCreated</td>
+                    <td>@ticket.TicketState</td>
+                    <td><a asp-action="GetTicket" asp-controller="Ticket" asp-route-id="@ticket.Id">Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
