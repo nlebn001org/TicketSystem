@@ -1,119 +1,142 @@
 ﻿@model TicketSystem.Web.ViewModels.ChangeUserModel
 
-<form onsubmit="if(!confirm('User info will be changed.')){return false;}" asp-action="ChangeUser" asp-controller="Admin">
-    <table>
-        <thead>
-            <tr>
-                <th class="tg-0pky">Items</th>
-                <th class="tg-0pky">Values</th>
-                <th class="tg-0pky">NewValue</th>
-                <th class="tg-0pky">Save Changes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="tg-0pky">ID</td>
-                <td class="tg-0pky">@Model.Id</td>
-                <td>
-                    <div class="form-group">
-                        <input type="hidden" value="@Model.Id" asp-for="Id" />
-                        <span asp-validation-for="Id"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="tg-0pky">Username</td>
-                <td class="tg-0pky">@Model.Username</td>
-                <td>
-                    <div class="form-group">
-                        <input type="hidden" value="@Model.Username" asp-for="@Model.Username" />
-                        <span asp-validation-for="Username"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="tg-0pky">Email</td>
-                <td class="tg-0pky">@Model.Email</td>
-                <td>
-                    <div class="form-group">
-                        <input type="text" asp-for="Email" />
-                        <span asp-validation-for="Email"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="tg-0pky">Name</td>
-                <td class="tg-0pky">@Model.Name</td>
-                <td>
-                    <div class="form-group">
-                        <input type="text" asp-for="Name" />
-                        <span asp-validation-for="Name"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="tg-0pky">Surname</td>
-                <td class="tg-0pky">@Model.Surname</td>
-                <td>
-                    <div class="form-group">
-                        <input type="text" asp-for="Surname" />
-                        <span asp-validation-for="Surname"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="tg-0pky">DateCreated</td>
-                <td class="tg-0pky">@Model.DateCreated</td>
-                <td>
-                    <div class="form-group">
-                        <input type="hidden" value="@Model.DateCreated" asp-for="DateCreated" />
-                        <span asp-validation-for="DateCreated"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="tg-0pky">DateChanged</td>
-                <td class="tg-0pky">@Model.DateChanged</td>
-                <td>
-                    <div class="form-group">
-                        <input type="hidden" value="@Model.DateChanged" asp-for="DateChanged" />
-                        <span asp-validation-for="DateChanged"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="tg-0pky">Role</td>
-                <td class="tg-0pky">@Model.RoleName</td>
-                <td>
-                    <div class="form-group">
-                        <p>
-                            <select asp-for="RoleName">
-                                <option disabled>Role</option>
-                                <option selected value="customer">Customer</option>
-                                <option value="support">Support</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </p>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 
-    <div class="form-group">
-        <input type="submit" value="Save changes" />
-    </div>
-</form>
 
-@*asp-action="ChangeUserPassword" asp-controller="Admin" asp-fragment="@Model.Username"*@
+<section class="container vh-100 bg-image">
+    <div class="mask d-flex align-items-center gradient-custom-3 " style="margin-top:50px">
+        <div class="container ">
+            <div class=" d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-5">
 
-<a asp-action="ChangeUserPassword" asp-controller="Admin" asp-route-id="@Model.Id">Change password</a>
+                            <h2 class="text-uppercase text-center mb-3">User <span class="userSpan">@Model.Username</span></h2>
 
-<div>
-    <form onsubmit="if(!confirm('Account will be deleted.')){return false;}" asp-action="DeleteUser" asp-controller="Admin">
-        <div class="form-group">
-            <input name="id" type="hidden" value="@Model.Id">
-            <input type="submit" value="Delete account" />
+
+                            <form onsubmit="if(!confirm('User info will be changed.')){return false;}" asp-action="ChangeUser" asp-controller="Admin">
+                                <table class="table border">
+                                    <tbody>
+                                        <tr>
+                                            <td><label asp-for="Id">ID</label></td>
+                                            <td>@Model.Id</td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" value="@Model.Id" asp-for="Id" />
+                                                    <span asp-validation-for="Id"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label asp-for="Username">Username</label></td>
+                                            <td>@Model.Username</td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" value="@Model.Username" asp-for="@Model.Username" />
+                                                    <span asp-validation-for="Username"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label asp-for="Email">Email</label></td>
+                                            <td>@Model.Email</td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" asp-for="Email" />
+                                                    <span asp-validation-for="Email"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label asp-for="Name">Name</label></td>
+                                            <td>@Model.Name</td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" asp-for="Name" />
+                                                    <span asp-validation-for="Name"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label asp-for="Surname">Surname</label></td>
+                                            <td>@Model.Surname</td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" asp-for="Surname" />
+                                                    <span asp-validation-for="Surname"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label asp-for="DateCreated">Created</label></td>
+                                            <td>@Model.DateCreated</td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" value="@Model.DateCreated" asp-for="DateCreated" />
+                                                    <span asp-validation-for="DateCreated"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label asp-for="DateChanged">Changed</label></td>
+                                            <td>@Model.DateChanged</td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="hidden" value="@Model.DateChanged" asp-for="DateChanged" />
+                                                    <span asp-validation-for="DateChanged"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label asp-for="RoleName">Role</label></td>
+                                            <td>@Model.RoleName</td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <p>
+                                                        <select asp-for="RoleName">
+                                                            <option disabled>Role</option>
+                                                            <option selected value="customer">Customer</option>
+                                                            <option value="support">Support</option>
+                                                            <option value="admin">Admin</option>
+                                                        </select>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success btn-lg "
+                                            style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                                        Save changes
+                                    </button>
+                                </div>
+                            </form>
+
+                            <div class="text-center mt-2">
+                                <a class="btn btn-primary btn-lg"
+                                   style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                                   asp-action="ChangeUserPassword" asp-controller="Admin" asp-route-id="@Model.Id">
+                                    Change password
+                                </a>
+                            </div>
+
+                            <div class="text-center mt-2">
+                                <form onsubmit="if(!confirm('Account will be deleted.')){return false;}" asp-action="DeleteUser" asp-controller="Admin">
+                                    <div class="form-group">
+                                        <input name="id" type="hidden" value="@Model.Id">
+                                        <button class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                                                type="submit">
+                                            Delete account
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </form>
-</div>
+    </div>
+</section>
