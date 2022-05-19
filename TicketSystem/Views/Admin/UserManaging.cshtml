@@ -26,71 +26,90 @@
         Model.Add(new TicketSystem.Web.ViewModels.FindUserModel());
 }
 
-<form asp-action="UserManaging" asp-controller="Admin" asp-antiforgery="true">
-    <div class="form-group">
-        <label asp-for="@Model[0].Username">Username</label>
-        <input type="text" asp-for="@Model[0].Username" />
-        <span asp-validation-for="@Model[0].Username"></span>
-    </div>
-    <div class="form-group">
-        <p>
-            <label asp-for="@Model[0].RoleName"></label>
-            <select asp-for="@Model[0].RoleName">
-                <option disabled>Role</option>
-                <option selected value="customer">Customer</option>
-                <option value="support">Support</option>
-                <option value="admin">Admin</option>
-            </select>
-        </p>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Find user" />
-    </div>
-</form>
+<div class="container mt-3">
+    <form asp-action="UserManaging" asp-controller="Admin" asp-antiforgery="true">
 
-<div>
-    <a asp-action="CreateNewUser" asp-controller="Admin">Create new user</a>
+        <div class="row">
+            <div class="col-2">
+                <label asp-for="@Model[0].Username">Username</label>
+            </div>
+            <div class="col-2">
+                <input type="text" asp-for="@Model[0].Username" />
+                <span asp-validation-for="@Model[0].Username"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <p>
+                <div class="col-2">
+                    <label asp-for="@Model[0].RoleName"></label>
+                </div>
+                <div class="col-2">
+                    <select asp-for="@Model[0].RoleName">
+                        <option disabled>Role</option>
+                        <option selected value="customer">Customer</option>
+                        <option value="support">Support</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+            </p>
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Find user</button>
+        </div>
+    </form>
+    <div>
+        <a class="btn btn-primary" asp-action="CreateNewUser" asp-controller="Admin">Create new user</a>
+    </div>
 </div>
+
+
 
 @{if (Model[0].Username != String.Empty && Model[0].Username != null)
     {
-        <h2>Were found @Model.Count results.</h2>
-        <br />
-        <table>
-            <tr>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Change</th>
-                <th>Tickets</th>
+        <div class="container mt-4">
+            <h2>Were found @Model.Count results.</h2>
+            <br />
+            <table class="table border">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (TicketSystem.Web.ViewModels.FindUserModel user in Model)
+                    {
 
-            </tr>
-            @foreach (TicketSystem.Web.ViewModels.FindUserModel user in Model)
-            {
-                <tr>
-                    <td>@user.Username</td>
-                    <td>@user.RoleName</td>
-                    <td>
-                        <form asp-action="GetUserInfo" asp-controller="Admin" asp-antiforgery="true">
-                            <div class="form-group">
-                                <input name="username" type="hidden" value="@user.Username">
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Change" />
-                            </div>
-                        </form>
-                    </td>
-                    <td>
-                        <form asp-action="GetUserTickets" asp-controller="Admin" asp-antiforgery="true">
-                            <div class="form-group">
-                                <input name="username" type="hidden" value="@user.Username">
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Show tickets" />
-                            </div>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </table>
+                        <tr>
+                            <td>@user.Username</td>
+                            <td>@user.RoleName</td>
+                            <td>
+                                <form asp-action="GetUserInfo" asp-controller="Admin" asp-antiforgery="true">
+                                    <div class="form-group">
+                                        <input name="username" type="hidden" value="@user.Username">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-light" type="submit">Change user</button>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="GetUserTickets" asp-controller="Admin" asp-antiforgery="true">
+                                    <div class="form-group">
+                                        <input name="username" type="hidden" value="@user.Username">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-light" type="submit">Show tickets</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
 }
+
